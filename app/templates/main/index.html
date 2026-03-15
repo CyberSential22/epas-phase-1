@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center; padding: 4rem 0;">
+    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Seamless Event Approvals</h1>
+    <p style="font-size: 1.25rem; color: #64748b; max-width: 600px; margin: 0 auto 2rem;">
+        The institutional platform for digitizing event planning workflows.
+        <strong>Status: {{ status }}</strong>
+    </p>
+    <a href="{{ url_for('events.placeholder') }}"
+        style="background: var(--primary); color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; text-decoration: none; font-weight: 600;">Get
+        Started</a>
+</div>
+{% endblock %}
