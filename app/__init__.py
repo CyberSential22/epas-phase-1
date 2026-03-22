@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from app.config import config
 from app.utils.logger import setup_logger
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 db = SQLAlchemy()
 csrf = CSRFProtect()
@@ -22,6 +23,14 @@ def create_app(config_name: str = None) -> Flask:
     # Initialize extensions
     db.init_app(app)
     csrf.init_app(app)
+
+    # Initialize ProxyFix middleware conditionally
+    if app.config.get('ENABLE_PROXY_FIX'):
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
+    with app.app_context():
+        # Initialize database tables if they do not exist
+        db.create_all()
 
     # Setup Logging
     setup_logger(app)
