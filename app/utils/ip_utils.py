@@ -1,32 +1,25 @@
-from flask import request, has_request_context
+from flask import request
 
 def get_client_ip(req=None):
     """
-    Extracts the real client IP address from the Flask request object.
+    Safely extract the real client IP address from the request in a production environment 
+    (behind Vercel/Render proxies) or local development.
     
-    Logic Priority:
-    1. Check 'X-Forwarded-For' (common behind AWS ELB, Nginx, Vercel, Render). 
-       It returns a comma-separated list of IPs. The first one is the original client.
-    2. Check 'X-Real-IP' (common in Nginx proxying).
-    3. Fallback to `request.remote_addr` for local development or direct access.
+    Priority:
+    1. HTTP_X_FORWARDED_FOR (List of IPs, take the first one)
+    2. HTTP_X_REAL_IP
+    3. request.remote_addr (Fallback)
     """
-    req = req or request
-    if not has_request_context():
-        return '127.0.0.1'
-
-    # 1. Check if X-Forwarded-For exists
-    x_forwarded_for = req.headers.get('X-Forwarded-For')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[0].strip()
-    
-    # 2. Check X-Real-IP
-    x_real_ip = req.headers.get('X-Real-IP')
-    if x_real_ip:
-        return x_real_ip.strip()
-    
-    # 3. Fallback to direct connection IP
-    return req.remote_addr or '127.0.0.1'
-
-# Maintain backward compatibility
-def extract_real_ip():
-    return get_client_ip(request)
+    if req is None:
+        req = request
+        
+    forwarded_for = req.headers.get('X-Forwarded-For')
+    if forwarded_for:
+        # X-Forwarded-For can be a comma-separated list of IPs. The first is the original client.
+        return forwarded_for.split(',')[0].strip()
+        
+    real_ip = req.headers.get('X-Real-IP')
+    if real_ip:
+        return real_ip.strip()
+        
+    return req.remote_addr

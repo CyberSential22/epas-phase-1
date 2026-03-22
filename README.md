@@ -1,41 +1,39 @@
 # Automated Event Planner and Approval System - Phase 1
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![Flask](https://img.shields.io/badge/Flask-2.x-lightgrey.svg)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Ready-blue.svg)
-![Git](https://img.shields.io/badge/Git-Enabled-orange.svg)
-![AI-Assisted](https://img.shields.io/badge/AI--Assisted-Development-green.svg)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-2.x-lightgrey?logo=flask&logoColor=black)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Ready-blue?logo=postgresql&logoColor=white)
+![Git](https://img.shields.io/badge/Git-Version_Control-F05032?logo=git&logoColor=white)
+![AI-Assisted](https://img.shields.io/badge/AI--Assisted-Development-brightgreen)
 
 ## Executive Summary
-The "Automated Event Planner and Approval System" aims to digitize institutional workflows at JNU Jaipur. By replacing traditional, paper-based event approval pipelines with a transparent, responsive digital platform, this system reduces delays, ensures accountability, and streamlines the event planning procedures (as detailed in Section 3.2 of the project synopsis).
+The "Automated Event Planner and Approval System" is designed to digitize institutional workflows at JNU Jaipur. By replacing legacy paper-based approvals with a secure, transparent, and efficient digital platform, this system streamlines event planning, request submissions, and administrative approvals, significantly reducing administrative overhead and increasing transparency across the university.
 
-## Phase 1 Scope: Initial System Setup
-This repository contains the deliverables for **Phase 1: Initial System Setup**. It establishes the robust foundation needed for subsequent feature development, including:
-- Modular Blueprint Architecture (`main` and `events` routes)
-- Dynamic Template Inheritance using Jinja2
-- Organized Static Assets management
-- Initial Error Handling & Routing
-- Cloud-Ready Configuration (Ready for migration from SQLite for Dev to PostgreSQL for Production)
+## Phase 1 Scope
+This repository encompasses the **Phase 1: Initial System Setup**. It lays the foundational architecture required for future development and deployment. The scope includes:
+- A modular Blueprint architecture (`admin`, `auth`, `main`, etc.).
+- Robust Jinja2 template inheritance for rapid UI development.
+- Integration of static assets (CSS, JS) mapped to routes.
+- Foundational routing and views.
+- Preparation for cloud deployment, including a database schema ready for migration from local SQLite (development) to PostgreSQL (production).
 
 ## Tech Stack
-- **Backend Environment**: Python 3.8+, Flask 2.x
-- **Templating**: Jinja2
-- **ORM & Database**: SQLAlchemy (SQLite dev -> PostgreSQL prod)
-- **Frontend**: HTML5, CSS3, JavaScript
-- **Production Server**: Gunicorn
-- **Proxy/Routing Middleware**: Werkzeug (ProxyFix)
+- **Backend**: Python 3.8+, Flask 2.x, SQLAlchemy (ORM)
+- **Frontend**: HTML5, CSS3, JavaScript, Jinja2
+- **Database**: SQLite (Dev) / PostgreSQL (Prod via Supabase)
+- **Server**: Gunicorn
 
-## Installation Guide (Local Development)
+## Installation Guide
 
-Step-by-step instructions to get the Phase 1 foundation running locally.
+Follow these steps to set up the system locally:
 
-1. **Clone the Repository**:
+1. **Clone the Repository**
    ```bash
    git clone https://github.com/CyberSential22/epas-phase-1.git
    cd epas-phase-1
    ```
 
-2. **Set Up the Virtual Environment**:
+2. **Set up a Virtual Environment**
    ```bash
    python -m venv venv
    # On Windows:
@@ -44,57 +42,54 @@ Step-by-step instructions to get the Phase 1 foundation running locally.
    source venv/bin/activate
    ```
 
-3. **Install Dependencies**:
+3. **Install Dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Environment Variables**:
-   Create a `.env` file in the root directory (do not commit this file):
+4. **Environment Configuration**
+   Create a `.env` file in the root directory:
    ```env
    FLASK_APP=run.py
    FLASK_ENV=development
-   SECRET_KEY=your_secure_development_key
+   SECRET_KEY=your-super-secret-key-change-me
    ```
 
-5. **Run the Application Locally**:
+5. **Run the Application**
    ```bash
+   flask run
+   # Or using the run script directly:
    python run.py
    ```
-   The application will be accessible at `http://127.0.0.1:5000`.
 
 ## Project Structure
-
 ```text
 epas-phase-1/
 ├── app/
-│   ├── blueprints/    # Application modules (main, events, admin)
-│   ├── models.py      # Database schema (SQLAlchemy)
-│   ├── utils/         # Helpers (e.g., ip_utils for Audit Logging)
-│   ├── templates/     # HTML Jinja2 templates
-│   ├── static/        # CSS, JS, Images
-│   ├── errors.py      # Global error handlers
-│   ├── config.py      # Env-based configurations
-│   └── __init__.py    # Application factory
-├── instance/          # Holds local dev.db (ignored in git)
-├── logs/              # Local application logs
-├── .gitignore         # Excluded files and folders 
-├── venv/              # Virtual Environment
-├── run.py             # Entry point
-├── vercel.json        # Vercel proxy configuration
-└── requirements.txt   # Project dependencies
+│   ├── __init__.py       # Application factory
+│   ├── config.py         # Configuration classes
+│   ├── models/           # Database models
+│   ├── utils/            # Helper utilities and IP logging
+│   ├── routes/           # Blueprint route definitions
+│   ├── templates/        # Jinja2 HTML templates
+│   └── static/           # CSS, JS, and Images
+├── instance/             # Local SQLite databases (Auto-generated, untracked)
+├── run.py                # Application entry point
+├── requirements.txt      # Python dependencies
+├── vercel.json           # Vercel proxy configuration
+├── .gitignore            # Ignored files configuration
+└── README.md             # Project documentation
 ```
 
 ## Deployment Overview
-As part of our continuous delivery setup (Section 16), the application architecture heavily utilizes cloud platforms:
-- **Frontend Proxy**: [Vercel](https://vercel.com) handling ingress traffic and static acceleration.
-- **Backend API**: [Render](https://render.com) serving the heavy-lifting Python/Flask logic via Gunicorn.
-- **Database**: [Supabase](https://supabase.com) (Serverless PostgreSQL) ensuring scalable data integrity.
+This project is structured for a modern, decoupled cloud deployment strategy:
+- **Frontend Proxy (Vercel)**: Acts as a reverse proxy, handling edge caching and continuous deployment.
+- **Backend Hosting (Render)**: Hosts the Python Flask application using Gunicorn.
+- **Database (Supabase)**: Offers a managed PostgreSQL database instance tailored for production.
 
 ## Acknowledgments
-- **Project Team**: Kashif Shaikh, Aditya Gond, Yaduvansh Singh Ranawat (CyberSential22)
-- **Project Guide**: Ms. Saumya, JNU Jaipur
-- **AI-Assisted Development**: Developed with adherence to Section 6.5 of the guidelines indicating ethical use of AI-assisted tools for rapid architectural setup, design suggestions, and research, while preserving student ownership and core system orchestration.
+This project is developed by **Kashif Shaikh, Aditya Gond, and Yaduvansh Singh Ranawat** under the guidance of **Ms. Saumya** at JNU Jaipur. 
+*Note on AI Usage (Section 6.5): AI-assisted tools were utilized ethically for research, debugging, and code generation, while the student team maintained full ownership and understanding of the core system design, logic, and architecture.*
 
 ## License
-Provided under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
