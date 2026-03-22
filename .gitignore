@@ -1,23 +1,26 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
+# Environments
 venv/
 ENV/
-
-# Database
-instance/
-*.db
-*.sqlite
-
-# Logs
-*.log
-instance/*.log
-
-# Environment
+.venv/
+env/
 .env
 .flaskenv
 
+# Local Databases
+instance/*.db
+instance/*.sqlite3
+*.sqlite3
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
 # IDEs
-.vscode/
 .idea/
+.vscode/
+
+# Logs
+logs/
+*.log
