@@ -1,25 +1,45 @@
-# Environments
+# Virtual Environments
 venv/
 ENV/
 .venv/
 env/
-.env
-.flaskenv
 
 # Local Databases
 instance/*.db
-instance/*.sqlite3
 *.sqlite3
+
+# Secret Keys & Environment files
+.env
+.flaskenv
 
 # Python Cache
 __pycache__/
-*.py[cod]
-*$py.class
 *.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
 
-# IDEs
+# IDE Settings
 .idea/
 .vscode/
+*.swp
+*.swo
 
 # Logs
 logs/
