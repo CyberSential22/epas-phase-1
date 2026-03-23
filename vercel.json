@@ -1,8 +1,13 @@
 {
-  "rewrites": [
+  "version": 2,
+  "env": {
+    "FLASK_ENV": "production",
+    "FLASK_CONFIG": "production"
+  },
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/app.py"
+      "src": "/(.*)",
+      "dest": "app.py"
     }
   ]
 }
