@@ -1,20 +1,19 @@
 {
   "version": 2,
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "https://YOUR-RENDER-APP.onrender.com/$1"
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
+      }
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Forwarded-Proto",
-          "value": "https"
-        }
-      ]
+      "src": "/(.*)",
+      "dest": "app.py"
     }
   ]
 }
