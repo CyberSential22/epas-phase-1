@@ -1,13 +1,20 @@
 {
   "version": 2,
-  "env": {
-    "FLASK_ENV": "production",
-    "FLASK_CONFIG": "production"
-  },
+  "builds": [
+    {
+      "src": "wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "wsgi.py"
     }
-  ]
+  ],
+  "env": {
+    "FLASK_ENV": "production",
+    "FLASK_CONFIG": "production",
+    "PYTHON_VERSION": "3.9"
+  }
 }
