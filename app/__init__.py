@@ -20,6 +20,19 @@ def create_app(config_name: str = None) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
+    # Ensure SQLALCHEMY_DATABASE_URI is set before DB initialization
+    # Priority: 1. Environment 'DATABASE_URL' 2. Existing config 3. Fallback to /tmp (Vercel writable)
+    db_url = os.environ.get('DATABASE_URL') or app.config.get('SQLALCHEMY_DATABASE_URI')
+    
+    if not db_url:
+        db_url = "sqlite:////tmp/epas.db"
+    
+    # Standardize postgresql:// if using external DB (e.g., Railway/Supabase)
+    if db_url.startswith("postgres://"):
+        db_url = db_url.replace("postgres://", "postgresql://", 1)
+        
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+
     # Initialize extensions
     db.init_app(app)
     csrf.init_app(app)
